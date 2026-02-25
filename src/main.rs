@@ -45,6 +45,5 @@ fn panic(info: &PanicInfo) -> ! {
 #[panic_handler]
 fn panic(info: &PanicInfo) -> ! {
     use rso::test_panic_handler;
-
     test_panic_handler(info)
 }

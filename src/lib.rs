@@ -7,8 +7,10 @@
 
 extern crate alloc;
 
-use bootloader::{BootInfo, entry_point};
 use core::panic::PanicInfo;
+
+#[cfg(test)]
+use bootloader::{BootInfo, entry_point};
 use x86_64::instructions::port::Port;
 
 pub mod allocator;
@@ -27,9 +29,6 @@ fn test_kernel_main(_bool_info: &'static BootInfo) -> ! {
     test_main();
     hit_loop();
 }
-
-#[cfg(not(test))]
-fn test_main() {}
 
 pub fn test_panic_handler(info: &PanicInfo) -> ! {
     serial_println!("[failed]");
@@ -92,9 +91,4 @@ pub fn hit_loop() -> ! {
     loop {
         x86_64::instructions::hlt();
     }
-}
-
-#[test_case]
-fn trivial_assertion() {
-    assert_eq!(1, 1);
 }
