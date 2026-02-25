@@ -10,7 +10,7 @@
 - 已完成：内存相关基础（如分页/帧分配/堆分配器）
 
 ## 环境要求
-- Rust（ightly）
+- Rust（nightly）
 - cargo
 - QEMU（用于运行与调试）
 
