@@ -1,5 +1,4 @@
 use crate::allocator::fixed_size_block::FixedSizeBlockAllocator;
-use crate::allocator::linked_list::LinkedListAllocator;
 
 use x86_64::VirtAddr;
 use x86_64::structures::paging::mapper::MapToError;

@@ -79,30 +79,7 @@ extern "x86-interrupt" fn keyboard_interrupt_handler(_stack_frame: InterruptStac
     let mut port = Port::new(0x60);
     let scancode: u8 = unsafe { port.read() };
 
-    static KEYBOARD: Lazy<Mutex<Keyboard<layouts::Us104Key, ScancodeSet1>>> = Lazy::new(|| {
-        Mutex::new(Keyboard::new(
-            ScancodeSet1::new(),
-            layouts::Us104Key,
-            HandleControl::Ignore,
-        ))
-    });
-
-    let mut keyboard = KEYBOARD.lock();
-    if let Ok(Some(key_event)) = keyboard.add_byte(scancode) {
-        if let Some(key) = keyboard.process_keyevent(key_event) {
-            match key {
-                DecodedKey::Unicode('\x08') | DecodedKey::Unicode('\x7f') => {
-                    del_prev();
-                }
-                DecodedKey::RawKey(key) => {
-                    print!("{:?}", key)
-                }
-                DecodedKey::Unicode(character) => {
-                    print!("{}", character)
-                }
-            }
-        }
-    }
+    crate::task::keyboard::add_scancode(scancode);
 
     unsafe {
         PICS.lock()
